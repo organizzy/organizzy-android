@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#FFFF851B">
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:layout_gravity="center"
+    android:weightSum="1">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="New Event"
+        android:id="@+id/txtTitle"
+        android:layout_gravity="center_horizontal"
+        android:textStyle="bold"
+        android:textColor="#ffffffff"
+        android:textSize="30sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="1 June 2014 10:00:00"
+        android:id="@+id/txtDescription"
+        android:layout_gravity="center_horizontal"
+        android:textStyle="bold"
+        android:textColor="#aaffffff" />
+
+    <AnalogClock
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/analogClock"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp" />
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:showDividers="middle">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_dismiss"
+            android:id="@+id/btnDismiss"
+            android:layout_margin="5dp"
+            style="@android:style/Widget.DeviceDefault.Light.Button" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_repeat"
+            android:id="@+id/btnRepeat"
+            android:layout_margin="5dp"
+            style="@android:style/Widget.DeviceDefault.Light.Button" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_view"
+            android:id="@+id/btnView"
+            android:layout_margin="5dp"
+            style="@android:style/Widget.DeviceDefault.Light.Button" />
+    </LinearLayout>
+
+</LinearLayout>
+
+</LinearLayout>

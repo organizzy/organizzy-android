@@ -1,0 +1,4 @@
+
+-keepclassmembers class org.organizzy.client.android.MainActivity$JavascriptObject {
+   public *;
+}

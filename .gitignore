@@ -1,0 +1,10 @@
+gen/*
+!gen/.geetkeep
+out/*
+!out/.geetkeep
+proguard_logs
+proguard-project.txt
+local.properties
+project.properties
+release-key.keystore
+.idea

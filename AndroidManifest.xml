@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<manifest package="org.organizzy.client.android"
+    android:versionName="0.5.2-beta" android:versionCode="502"
+    android:windowSoftInputMode="adjustPan" android:hardwareAccelerated="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <supports-screens android:anyDensity="true" android:largeScreens="true"
+        android:normalScreens="true" android:resizeable="true" android:smallScreens="true"
+        android:xlargeScreens="true" />
+
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="19" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application android:allowBackup="true" android:hardwareAccelerated="true"
+        android:icon="@drawable/icon" android:label="@string/app_name">
+
+        <activity android:name=".MainActivity" android:label="@string/app_name"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale"
+            android:launchMode="singleInstance"
+            android:theme="@android:style/Theme.Light.NoTitleBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
+        <receiver android:name=".BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".alarm.AlarmService" android:exported="false"  />
+        <receiver android:name=".alarm.AlarmReceiver" />
+        <activity android:name=".alarm.AlarmActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
+
+    </application>
+</manifest>
