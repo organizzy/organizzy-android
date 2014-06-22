@@ -3,16 +3,10 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.SystemClock;
-import android.preference.PreferenceManager;
 
-import org.apache.cordova.LOG;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -20,11 +14,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import org.organizzy.client.android.R;
 import org.organizzy.client.android.Service;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -82,15 +77,21 @@ public class AlarmService extends Service {
         req.addHeader("User-Agent", "AlarmFetcher/1.0 (tz=" + TimeZone.getDefault().getID() + ")");
         try {
             HttpResponse response = client.execute(req);
-            HttpEntity entity = response.getEntity();
-            int len = (int) entity.getContentLength();
-            byte buffer[] = new byte[len];
-            if (entity.getContent().read(buffer) > 0) {
-                String data = new String(buffer);
 
-                if (processData(data))
-                    preference.setCachedData(data).commit();
+            BufferedReader rd = new BufferedReader
+                    (new InputStreamReader(response.getEntity().getContent()));
+
+            StringBuilder stringBuilder = new StringBuilder();
+            String line;
+            while ((line = rd.readLine()) != null) {
+                stringBuilder.append(line);
             }
+
+            String data = stringBuilder.toString();
+
+            if (processData(data))
+                preference.setCachedData(data).commit();
+
         }
         catch (IOException e) {
             e.printStackTrace();
