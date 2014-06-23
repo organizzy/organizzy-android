@@ -13,7 +13,7 @@ public class AlarmPreference {
     private static final String ITEM_READ = "alarm-read-item-";
     private static final String SESSION_ID = "session-id";
 
-    private static final int DEFAULT_SYNC_INTERVAL = 10000; // 5*60*1000
+    private static final int DEFAULT_SYNC_INTERVAL = 60000; // 60*1000
 
     private static final int DEFAULT_REMINDER_BEFORE = 7200000; // 2*60*60*1000
     private static final int DEFAULT_REMINDER_INTERVAL = 1800000; // 30*60*1000
