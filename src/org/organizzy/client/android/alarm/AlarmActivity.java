@@ -17,6 +17,8 @@ import org.organizzy.client.android.R;
 public class AlarmActivity extends Activity {
     private AlarmData data;
     private AlarmPreference preference;
+    private boolean dismiss = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,9 +59,10 @@ public class AlarmActivity extends Activity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        preference.setItemRead(data.id, false).commit();
+    protected void onStop() {
+        super.onStop();
+        if (!dismiss)
+            preference.setItemRead(data.id, false).commit();
     }
 
     @Override
@@ -82,6 +85,7 @@ public class AlarmActivity extends Activity {
     }
 
     private void btnDismissOnClick(View view) {
+        dismiss = true;
         finish();
     }
 
@@ -100,7 +104,7 @@ public class AlarmActivity extends Activity {
         }
 
         Toast.makeText(this, "OK", Toast.LENGTH_LONG).show();
-
+        dismiss = true;
         finish();
     }
 
