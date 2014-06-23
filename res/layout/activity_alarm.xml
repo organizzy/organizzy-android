@@ -1,80 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#FFFF851B">
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:layout_gravity="center"
-    android:weightSum="1">
+    android:background="@color/orange"
+    android:gravity="center|center_horizontal"
+    android:orientation="vertical">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="New Event"
         android:id="@+id/txtTitle"
-        android:layout_gravity="center_horizontal"
-        android:textStyle="bold"
-        android:textColor="#ffffffff"
-        android:textSize="30sp" />
-
-    <TextView
+        style="@style/Widget.TextView.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="1 June 2014 10:00:00"
-        android:id="@+id/txtDescription"
         android:layout_gravity="center_horizontal"
-        android:textStyle="bold"
-        android:textColor="#aaffffff" />
+        android:text="New Event" />
+
+    <TextView
+        android:id="@+id/txtDescription"
+        style="@style/Widget.TextView.Subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="1 June 2014 10:00:00" />
 
     <AnalogClock
+        android:id="@+id/analogClock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/analogClock"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp" />
 
     <LinearLayout
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:showDividers="middle">
+        android:orientation="horizontal">
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_dismiss"
             android:id="@+id/btnDismiss"
-            android:layout_margin="5dp"
-            style="@android:style/Widget.DeviceDefault.Light.Button" />
-
-        <Button
+            style="@style/Widget.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/btn_repeat"
+            android:text="@string/btn_dismiss" />
+
+        <Button
             android:id="@+id/btnRepeat"
-            android:layout_margin="5dp"
-            style="@android:style/Widget.DeviceDefault.Light.Button" />
-
-        <Button
+            style="@style/Widget.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/btn_view"
-            android:id="@+id/btnView"
-            android:layout_margin="5dp"
-            style="@android:style/Widget.DeviceDefault.Light.Button" />
-    </LinearLayout>
+            android:text="@string/btn_repeat" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/btnView"
+            style="@style/Widget.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_view" />
+    </LinearLayout>
 
 </LinearLayout>

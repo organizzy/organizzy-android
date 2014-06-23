@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="orange">#FFFF851B</color>
+
+    <style name="Widget.TextView.Title" parent="android:Widget.TextView">
+        <item name="android:textSize">30sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#ffffffff</item>
+    </style>
+
+    <style name="Widget.TextView.Subtitle" parent="android:Widget.TextView">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#aaffffff</item>
+    </style>
+
+    <style name="Widget.Button" parent="android:Widget.Button">
+        <item name="android:background">#44000000</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMediumInverse</item>
+        <item name="android:textColor">#ffffffff</item>
+        <item name="android:minHeight">48dip</item>
+        <item name="android:minWidth">64dip</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+</resources>
