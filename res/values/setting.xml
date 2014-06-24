@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="setting_alarm">Alarm</string>
+    <string name="setting_alarm_sync_interval">Sync Interval</string>
+    <string name="setting_alarm_enable">Enable</string>
+    <string name="setting_language">Language</string>
+    <array name="setting_alarm_sync_interval_list">
+        <item>Every Minutes</item>
+        <item>Every 5 Minutes</item>
+        <item>Every 15 Minutes</item>
+        <item>Every 30 Minutes</item>
+        <item>Every Hours</item>
+    </array>
+    <string-array name="setting_alarm_sync_interval_values">
+        <item>60000</item>
+        <item>300000</item>
+        <item>900000</item>
+        <item>1800000</item>
+        <item>3600000</item>
+    </string-array>
+    <string name="setting_alarm_sync_default">300</string>
+
+    <string-array name="setting_alarm_notify_before_list">
+        <item>2 hours Before</item>
+        <item>1 hour Before</item>
+        <item>30 Minutes Before</item>
+    </string-array>
+    <string-array name="setting_alarm_notify_before_values">
+        <item>2 hours Before</item>
+        <item>1 hour Before</item>
+        <item>30 Minutes Before</item>
+    </string-array>
+
+    <string name="setting_alarm_notify_before">Notify me</string>
+    <string name="setting_notify_before_default">7200000</string>
+</resources>

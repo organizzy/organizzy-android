@@ -11,14 +11,15 @@ import android.support.v4.app.NotificationCompat;
 
 import org.organizzy.client.android.R;
 
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         AlarmData data = intent.getParcelableExtra("data");
+
+        String sid = intent.getStringExtra("sid");
+        if (sid == null || !sid.equals(AlarmPreference.getDefault(context).getSessionID())) {
+            return;
+        }
 
         Intent targetIntent = new Intent(context, AlarmActivity.class);
         int flag = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -30,18 +31,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         targetIntent.addFlags(flag);
         targetIntent.putExtra("data", data);
 
-        StringBuilder description = new StringBuilder();
-        if (data.isEvent()) {
-            description.append("Event: ");
-        } else if (data.isTask()) {
-            description.append("Task: ");
-        }
-
-        description.append(DateFormat.getDateTimeInstance().format(new Date(data.time)));
-
         Notification n = new NotificationCompat.Builder(context)
                 .setContentTitle(data.title)
-                .setContentText(description.toString())
+                .setContentText(data.getDescription())
                 .setTicker("Reminder: " + data.title)
                 .setSmallIcon(R.drawable.icon)
                 .setContentIntent(PendingIntent.getActivity(context, data.id, targetIntent, 0))

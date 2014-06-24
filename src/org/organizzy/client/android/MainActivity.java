@@ -19,19 +19,20 @@
 
 package org.organizzy.client.android;
 
-import android.annotation.SuppressLint;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.webkit.JavascriptInterface;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.Toast;
 
-import org.apache.cordova.*;
+import org.apache.cordova.Config;
+import org.apache.cordova.CordovaActivity;
+import org.organizzy.client.android.alarm.AlarmPreference;
 import org.organizzy.client.android.alarm.AlarmService;
 
 import java.util.Locale;
@@ -40,9 +41,17 @@ import java.util.TimeZone;
 public class MainActivity extends CordovaActivity
 {
     public static final String STARTUP_PAGE = "page";
+
+    /**
+     * page to be open when activity start
+     * set in {@link #receiveIntent(android.content.Intent)}
+     */
     public String startPage = null;
 
-    public String version = null;
+    /**
+     * current application version
+     */
+    private String version = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -51,8 +60,7 @@ public class MainActivity extends CordovaActivity
         super.init();
 
         try {
-            version = getPackageManager()
-                    .getPackageInfo(getPackageName(), 0).versionName;
+            version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
             version = "1.0";
         }
@@ -63,20 +71,12 @@ public class MainActivity extends CordovaActivity
         w.setUserAgentString(w.getUserAgentString() + userAgent);
         w.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 
-
-        // Set by <content src="index.html" /> in config.xml
         super.appView.addJavascriptInterface(new JavascriptObject(this), "_organizzy");
         super.loadUrl(Config.getStartUrl());
         receiveIntent(getIntent());
 
         AlarmService.registerService(this);
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -123,11 +123,12 @@ public class MainActivity extends CordovaActivity
             AlarmService.registerService(mContext, sid);
         }
 
-
         @JavascriptInterface
         public void logout() {
-            PreferenceManager.getDefaultSharedPreferences(mContext)
-                .edit().remove(SID).commit();
+            AlarmPreference.getDefault(mContext).removeSessionID().commit();
+            AlarmService.unregisterService(mContext);
+            NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+            nm.cancelAll();
         }
 
         @JavascriptInterface
@@ -139,6 +140,12 @@ public class MainActivity extends CordovaActivity
         @JavascriptInterface
         public void showToast(String toast) {
             Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show();
+        }
+
+        @JavascriptInterface
+        public void showSettingPage() {
+            Intent intent = new Intent(mContext, SettingActivity.class);
+            mContext.startActivityIfNeeded(intent, 0);
         }
     }
 

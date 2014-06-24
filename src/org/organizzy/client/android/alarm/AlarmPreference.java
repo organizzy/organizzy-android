@@ -5,25 +5,30 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 public class AlarmPreference {
-    private static final String SYNC_INTERVAL = "alarm-sync-interval";
-    private static final String LAST_SYNC = "alarm-sync-last";
-    private static final String CACHED_DATA = "alarm-data-cache";
-    private static final String REMINDER_BEFORE = "alarm-reminder-before";
-    private static final String REMINDER_INTERVAL = "alarm-reminder-interval";
-    private static final String ITEM_READ = "alarm-read-item-";
-    private static final String SESSION_ID = "session-id";
+    public static final String ENABLE = "enable";
+    public static final String SYNC_INTERVAL = "alarm-sync-interval";
+    public static final String LAST_SYNC = "alarm-sync-last";
+    public static final String CACHED_DATA = "alarm-data-cache";
+    public static final String REMINDER_BEFORE = "alarm-reminder-before";
+    public static final String REMINDER_INTERVAL = "alarm-reminder-interval";
+    public static final String ITEM_READ = "alarm-read-item-";
+    public static final String SESSION_ID = "session-id";
 
     private static final int DEFAULT_SYNC_INTERVAL = 60000; // 60*1000
 
     private static final int DEFAULT_REMINDER_BEFORE = 7200000; // 2*60*60*1000
     private static final int DEFAULT_REMINDER_INTERVAL = 1800000; // 30*60*1000
 
+    private static AlarmPreference instance = null;
 
     SharedPreferences preferences;
     SharedPreferences.Editor editor = null;
 
     public static AlarmPreference getDefault(Context context) {
-        return new AlarmPreference(context);
+        if (instance == null) {
+            return instance = new AlarmPreference(context);
+        }
+        return instance;
     }
 
     private AlarmPreference(Context context) {
@@ -44,13 +49,16 @@ public class AlarmPreference {
         }
     }
 
-    public int getSyncInterval() {
-        return preferences.getInt(SYNC_INTERVAL, DEFAULT_SYNC_INTERVAL);
+    public boolean isEnable() {
+        return preferences.getBoolean(ENABLE, true);
     }
 
-    public AlarmPreference setSyncInterval(int syncInterval) {
-        getEditor().putInt(SYNC_INTERVAL, DEFAULT_SYNC_INTERVAL);
-        return this;
+    public int getSyncInterval() {
+        String interval = preferences.getString(SYNC_INTERVAL, null);
+        if (interval == null)
+            return DEFAULT_SYNC_INTERVAL;
+        else
+            return Integer.parseInt(interval);
     }
 
     public int getReminderBefore() {
@@ -93,6 +101,11 @@ public class AlarmPreference {
 
     public String getSessionID() {
         return preferences.getString(SESSION_ID, null);
+    }
+
+    public AlarmPreference removeSessionID() {
+        getEditor().remove(SESSION_ID);
+        return this;
     }
 
     public AlarmPreference setSessionID(String sessionID) {

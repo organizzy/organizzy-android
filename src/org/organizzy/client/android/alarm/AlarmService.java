@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.SystemClock;
+import android.webkit.CookieManager;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -32,6 +33,17 @@ public class AlarmService extends Service {
 
     public static void registerService(Context context, String sid) {
         AlarmPreference preference = AlarmPreference.getDefault(context);
+
+        if (! preference.isEnable()) {
+            return;
+        }
+
+        if (sid != null) {
+            preference.setSessionID(sid).setLastSync(0).commit();
+        } else if (preference.getSessionID() == null) {
+            return;
+        }
+
         long lastRun = preference.getLastSync();
         int recurrence = preference.getSyncInterval();
 
@@ -41,9 +53,6 @@ public class AlarmService extends Service {
             nextRun = now;
         }
 
-        if (sid != null) {
-            preference.setSessionID(sid).commit();
-        }
 
         Intent intent = new Intent(context, AlarmService.class);
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
@@ -54,6 +63,14 @@ public class AlarmService extends Service {
 
     }
 
+    public static void unregisterService(Context context) {
+        Intent intent = new Intent(context, AlarmService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
+
+        AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+        am.cancel(pendingIntent);
+    }
+
     private AlarmManager am;
     private AlarmPreference preference;
 
@@ -61,8 +78,9 @@ public class AlarmService extends Service {
     protected Object execute(Intent intent) {
         preference = AlarmPreference.getDefault(this);
 
-        String sid = preference.getSessionID();
-        if (sid == null) return null;
+        if (!preference.isEnable()) {
+            return null;
+        }
 
         preference.setLastSync(SystemClock.elapsedRealtime()).commit();
 
@@ -72,8 +90,10 @@ public class AlarmService extends Service {
                 calendar.get(Calendar.DATE));
 
         HttpClient client = new DefaultHttpClient();
-        HttpUriRequest req = new HttpGet(getString(R.string.server) + String.format(getString(R.string.server_activity_json), date));
-        req.addHeader("Cookie", "sid=" + sid);
+        String url = getString(R.string.server) + "/activity/get?date=" + date;
+        HttpUriRequest req = new HttpGet(url);
+        String cookie = CookieManager.getInstance().getCookie(url);
+        req.addHeader("Cookie", cookie);
         req.addHeader("User-Agent", "AlarmFetcher/1.0 (tz=" + TimeZone.getDefault().getID() + ")");
         try {
             HttpResponse response = client.execute(req);
@@ -130,6 +150,7 @@ public class AlarmService extends Service {
         data.type = item.getString("type");
         data.time = item.getLong("datetime");
         i.putExtra("data", data);
+        i.putExtra("sid", preference.getSessionID());
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, id, i, 0);
         Long time = data.time;

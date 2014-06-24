@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/setting_alarm">
+        <CheckBoxPreference
+            android:title="@string/setting_alarm_enable"
+            android:key="alarm-enable"
+            android:defaultValue="true" />
+        <ListPreference
+            android:title="@string/setting_alarm_sync_interval"
+            android:dialogTitle="@string/setting_alarm_sync_interval"
+            android:key="alarm-sync-interval"
+            android:entries="@array/setting_alarm_sync_interval_list"
+            android:entryValues="@array/setting_alarm_sync_interval_values"
+            android:defaultValue="@string/setting_alarm_sync_default"
+            />
+        <ListPreference
+            android:title="@string/setting_alarm_notify_before"
+            android:dialogTitle="@string/setting_alarm_notify_before"
+            android:key="alarm-notify-before"
+            android:entries="@array/setting_alarm_notify_before_list"
+            android:entryValues="@array/setting_alarm_notify_before_values"
+            android:defaultValue="@string/setting_notify_before_default"
+            />
+    </PreferenceCategory>
+</PreferenceScreen>

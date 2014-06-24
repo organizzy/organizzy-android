@@ -57,11 +57,11 @@ public class AlarmData implements Parcelable {
     }
 
     public boolean isEvent() {
-        return TYPE_EVENT.equals(type);
+        return type.startsWith("event-");
     }
 
     public boolean isTask() {
-        return TYPE_TASK.equals(type);
+        return type.startsWith("task-");
     }
 
     public String getDescription() {
